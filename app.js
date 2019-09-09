@@ -1,5 +1,5 @@
 'use strict'
-
+require('dotenv').config()
 const prompt = require('prompt')
 const colors = require('colors/safe')
 
@@ -13,7 +13,7 @@ prompt.get({
     require: true,
     conform: function(action) {
         let actionCase = action.toUpperCase()
-        if(action !== 'A' && action !== 'S' && action !== 'D') {
+        if(actionCase !== 'A' && actionCase !== 'S' && actionCase !== 'D') {
             return false
         }
         return true
@@ -39,11 +39,18 @@ function selectPassword() {
         const service = result.service
         const passwordsInfo = util.loadPasswordsInfoFromFile(service)
         if(passwordsInfo.length === 1) {
-            util.copyPasswordToClipboard()
-            console.log(util.selectedPasswordInfo(passwordsInfo[0].service, passwordsInfo[0].service))
+            util.copyPasswordToClipboard(passwordsInfo[0].password)
+            console.log(util.selectedPasswordInfo(passwordsInfo[0].service, passwordsInfo[0].username))
             return
         }
         chooseFromSelections()
+    })
+}
+
+function deletePassword() {
+    prompt.get({
+        name: ''
+        
     })
 }
 
@@ -52,6 +59,5 @@ function chooseFromSelections() {
         name: 'selection',
         message: 'Choose a password from a service below? (Enter 1-5)',
         require: true,
-        
     })
 }

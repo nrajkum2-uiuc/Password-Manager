@@ -24,7 +24,7 @@ util.savePasswordInfoToFile =  (encrPassword, username, service) => {
     const passwordsToSave = []
     const strToWrite = `"${service}",${username},${encrPassword}`
 
-    const passwordsInfoStream = fs.readFileSync(passwordFilePath); 
+    const passwordsInfoStream = fs.readFileSync(passwordFilePath);
     const passwordsInfo = parse(passwordsInfoStream, {})
 
     let found = false
@@ -50,15 +50,16 @@ util.savePasswordInfoToFile =  (encrPassword, username, service) => {
 util.loadPasswordsInfoFromFile = (service) => {
     const matchedServicesAndPasswords = []
 
-    const passwordsInfoStream = fs.readFileSync(passwordFilePath, fileStr)
+    const passwordsInfoStream = fs.readFileSync(passwordFilePath)
     const passwordsInfo = parse(passwordsInfoStream, {})
     
     _.forEach(passwordsInfo, (passwordInfo) => {
         if(passwordInfo[0].toUpperCase().includes(service.toUpperCase())) {
+            console.log(passwordsInfo)
             matchedServicesAndPasswords.push({
                 service: passwordInfo[0],
-                username: passwrodInfo[1],
-                encrPassword: passwordInfo[2]
+                username: passwordInfo[1],
+                password: util.decryptPassword(passwordInfo[2])
             })
         }
     })

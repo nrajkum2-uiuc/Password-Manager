@@ -13,6 +13,7 @@
         "chai": "*"
     },
     "scripts": {
+        "app": "node app.js",
         "test": "mocha"
     }
 }

@@ -26,9 +26,13 @@ describe('util testing', function() {
         done()
     })
 
-    it('save a password to file', function(done) {
+    it('save a password to file and load', function(done) {
         const passwordInfo = _.defaults({ password: util.encryptPassWord(passwordInfos[0].password) }, passwordInfos[0])
         util.savePasswordInfoToFile(passwordInfo.password, passwordInfo.username, passwordInfo.service)
-        done()
+        const passwordinfoLoaded = util.loadPasswordsInfoFromFile(passwordInfo.service)
+        
+        expect(passwordinfoLoaded[0].password).to.equal(passwordInfos[0].password)
+        expect(passwordinfoLoaded[0].username).to.equal(passwordInfo.username)
     })
+
 })
