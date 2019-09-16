@@ -47,6 +47,21 @@ util.savePasswordInfoToFile =  (encrPassword, username, service) => {
     return strToWrite
 }
 
+util.removePassword = (service) => {
+    const matchedServicesAndPasswords = []
+
+    const passwordsInfoStream = fs.readFileSync(passwordFilePath)
+    const passwordsInfo = parse(passwordsInfoStream, {})
+
+    for(let i = 0; i < passwordsInfo.length; i++) {
+        const passwordInfo = passwordsInfo[i]
+        if(passwordInfo[0].toUpperCase() === service.toUpperCase()) {
+            passwordsInfo.splice(i)
+            break
+        }
+    }
+}
+
 util.loadPasswordsInfoFromFile = (service) => {
     const matchedServicesAndPasswords = []
 
@@ -63,11 +78,11 @@ util.loadPasswordsInfoFromFile = (service) => {
             })
         }
     })
-    
+
     return matchedServicesAndPasswords
 }
 
-util.selectedPasswordInfo = (service, username) => `The password for ${service} with account: ${username} has been copied to your clipboard`
+util.passwordInfoToString = (service, username) => `The password for ${service} with account: ${username} has been copied to your clipboard`
 
 
 util.copyPasswordToClipboard = function(password) {
